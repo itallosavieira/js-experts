@@ -40,14 +40,22 @@ class ContadorComponent {
             clearInterval(idIntervalo)
 
             elementoContador.innerHTML = ""
+            this.desabilitarBotao(false)
         }
     }
 
     prepararBotao(elementoBotao, iniciarFn) {
         elementoBotao.addEventListener('click', iniciarFn.bind(this))
 
-        return () => {
+        return (valor = true) => {
+            const atributo = 'disabled'
 
+            if(valor) {
+                elementoBotao.setAttribute(atributo, valor)
+                return;
+            }
+
+            elementoBotao.removeAttribute(atributo)
         }
     }
 
@@ -68,7 +76,7 @@ class ContadorComponent {
         {
             const elementoBotao = document.getElementById(BTN_REINICIAR)
             const desabilitarBotao = this.prepararBotao(elementoBotao, this.inicializar)
-
+            desabilitarBotao()
 
             const argumentos = { elementoContador, idIntervalo }
             const pararContadorFn = this.agendarParadaContador.apply({ desabilitarBotao}, [argumentos])
