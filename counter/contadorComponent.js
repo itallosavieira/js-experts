@@ -43,6 +43,14 @@ class ContadorComponent {
         }
     }
 
+    prepararBotao(elementoBotao, iniciarFn) {
+        elementoBotao.addEventListener('click', iniciarFn.bind(this))
+
+        return () => {
+
+        }
+    }
+
     inicializar() {
         console.log('inicializou!')
         const elementoContador = document.getElementById(ID_CONTADOR)
@@ -58,8 +66,11 @@ class ContadorComponent {
         const idIntervalo = setInterval(fn, PERIODO_INTERVALO)
         
         {
+            const elementoBotao = document.getElementById(BTN_REINICIAR)
+            const desabilitarBotao = this.prepararBotao(elementoBotao, this.inicializar)
+
+
             const argumentos = { elementoContador, idIntervalo }
-            const desabilitarBotao = () => console.log('desabilitou...')
             const pararContadorFn = this.agendarParadaContador.apply({ desabilitarBotao}, [argumentos])
             contador.efetuarParada = pararContadorFn
         }
